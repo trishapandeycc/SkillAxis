@@ -3,7 +3,8 @@ name: Deploy SkillAxis to GitHub Pages
 on:
   push:
     branches:
-      - trainer-module
+      - main
+
   workflow_dispatch:
 
 permissions:

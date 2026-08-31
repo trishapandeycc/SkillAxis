@@ -49,12 +49,12 @@ import TraineeProfile from "../Pages/Trainee/TraineeProfile";
 function AppRoutes() {
   return (
     <Routes>
-
-    <>
-      // =========================
-      // LANDING PAGE
-      // =========================
-      <Route path="/" element={<LandingPage />} /><Route path="/LandingPage" element={<LandingPage />} /></>
+      <>
+        // ========================= // LANDING PAGE //
+        =========================
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/LandingPage" element={<LandingPage />} />
+      </>
       {/* =========================
           LOGIN
       ========================= */}
@@ -316,8 +316,6 @@ function AppRoutes() {
       {/* =========================
           DEFAULT ROUTE
       ========================= */}
-
-      <Route path="/" element={<Navigate to="/login" replace />} />
 
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>

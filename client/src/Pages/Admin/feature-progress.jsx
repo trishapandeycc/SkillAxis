@@ -738,130 +738,373 @@ function Progress({ role = "Admin" }) {
         )}
 
       </section>
+{/* =====================================================
+    VIEW MODAL
+===================================================== */}
 
-      {/* =====================================================
-          VIEW MODAL
-          ===================================================== */}
+{selectedPerson && (
+  <div
+    className="progress-modal-overlay"
+    onClick={() => setSelectedPerson(null)}
+  >
+    <div
+      className="progress-modal"
+      onClick={(e) => e.stopPropagation()}
+    >
 
-      {selectedPerson && (
+      {/* =================================================
+          HEADER - FIXED
+      ================================================= */}
 
-        <div
-          className="progress-modal-overlay"
-          onClick={() =>
-            setSelectedPerson(null)
-          }
+      <div className="progress-modal-header">
+
+        <div className="modal-person-info">
+
+          <div className="modal-avatar">
+            {selectedPerson.data.name
+              .charAt(0)
+              .toUpperCase()}
+          </div>
+
+          <div>
+            <h2>
+              {selectedPerson.data.name}
+            </h2>
+
+            <p>
+              {selectedPerson.type} Progress Details
+            </p>
+          </div>
+
+        </div>
+
+        <button
+          className="modal-close-btn"
+          onClick={() => setSelectedPerson(null)}
         >
+          <FaTimes />
+        </button>
+
+      </div>
+
+
+      {/* =================================================
+          SCROLLABLE CONTENT
+      ================================================= */}
+
+      <div className="progress-modal-content">
+
+
+        {/* =================================================
+            PROGRESS SECTION
+        ================================================= */}
+
+        <div className="modal-progress-section">
+
+          {/* Progress Circle */}
 
           <div
-            className="progress-modal"
-            onClick={(e) =>
-              e.stopPropagation()
-            }
+            className="modal-progress-ring"
+            style={{
+              "--progress":
+                `${selectedPerson.data.progress}%`,
+            }}
           >
+            <div className="modal-progress-inner">
 
-            <div className="progress-modal-header">
-
-              <div>
-                <h2>
-                  {selectedPerson.data.name}
-                </h2>
-
-                <p>
-                  {selectedPerson.type} Progress Details
-                </p>
-              </div>
-
-              <button
-                onClick={() =>
-                  setSelectedPerson(null)
-                }
-              >
-                <FaTimes />
-              </button>
-
-            </div>
-
-            <div className="modal-progress-main">
-
-              <div className="modal-progress-circle">
+              <strong>
                 {selectedPerson.data.progress}%
-              </div>
+              </strong>
 
-              <div>
-                <h3>Overall Progress</h3>
+              <span>
+                Complete
+              </span>
 
-                <p>
-                  Current training completion
-                  percentage.
-                </p>
-              </div>
+            </div>
+          </div>
+
+
+          {/* Progress Information */}
+
+          <div className="modal-progress-info">
+
+            <span className="progress-small-title">
+              OVERALL PROGRESS
+            </span>
+
+
+            <div className="progress-title-row">
+
+              <h3>
+                {selectedPerson.data.progress >= 75
+                  ? "Excellent Progress"
+                  : selectedPerson.data.progress >= 50
+                  ? "Good Progress"
+                  : "Needs Improvement"}
+              </h3>
+
+              <span className="progress-status">
+                ↗ On Track
+              </span>
 
             </div>
 
-            <div className="modal-detail-grid">
 
-              <div>
-                <span>Total Sessions</span>
-                <strong>
-                  {selectedPerson.data.sessions}
-                </strong>
-              </div>
+            <p>
+              Current training completion percentage
+              based on assigned sessions.
+            </p>
 
-              <div>
-                <span>Completed</span>
-                <strong>
-                  {selectedPerson.data.completed}
-                </strong>
-              </div>
 
-              <div>
-                <span>Upcoming</span>
-                <strong>
-                  {selectedPerson.data.upcoming}
-                </strong>
-              </div>
+            {/* Progress Bar */}
 
-              {selectedPerson.type === "Trainee" && (
-                <div>
-                  <span>Assessments</span>
-                  <strong>
-                    {selectedPerson.data.attempted}/
-                    {selectedPerson.data.assessments}
-                  </strong>
-                </div>
-              )}
+            <div className="progress-bar-container">
 
-              {selectedPerson.type === "Trainer" && (
-                <div>
-                  <span>Assigned Trainees</span>
-                  <strong>
-                    {selectedPerson.data.trainees}
-                  </strong>
-                </div>
-              )}
+              <div
+                className="progress-bar-fill"
+                style={{
+                  width:
+                    `${selectedPerson.data.progress}%`,
+                }}
+              ></div>
 
             </div>
 
-            <div className="progress-modal-footer">
 
-              <button
-                onClick={() =>
-                  setSelectedPerson(null)
-                }
-              >
-                Close
-              </button>
+            <div className="progress-bar-value">
+              {selectedPerson.data.progress}%
+            </div>
+
+
+            {/* Encouragement */}
+
+            <div className="progress-message">
+
+              <span className="progress-message-icon">
+                ★
+              </span>
+
+              <span>
+                Keep it up! You're making steady progress.
+              </span>
 
             </div>
 
           </div>
 
         </div>
-      )}
+
+
+        {/* =================================================
+            DETAIL CARDS
+        ================================================= */}
+
+        <div className="modal-detail-grid">
+
+
+          {/* ================= TOTAL SESSIONS ================= */}
+
+          <div className="modal-stat-card sessions-card">
+
+            <div className="stat-icon">
+              📅
+            </div>
+
+            <div className="stat-content">
+
+              <span>
+                Total Sessions
+              </span>
+
+              <strong>
+                {selectedPerson.data.sessions}
+              </strong>
+
+              <small>
+                All assigned sessions
+              </small>
+
+            </div>
+
+          </div>
+
+
+          {/* ================= COMPLETED ================= */}
+
+          <div className="modal-stat-card completed-card">
+
+            <div className="stat-icon">
+              ✓
+            </div>
+
+            <div className="stat-content">
+
+              <span>
+                Completed
+              </span>
+
+              <strong>
+                {selectedPerson.data.completed}
+              </strong>
+
+              <small>
+                Sessions completed
+              </small>
+
+            </div>
+
+            <div className="stat-percentage green">
+
+              {selectedPerson.data.sessions
+                ? Math.round(
+                    (selectedPerson.data.completed /
+                      selectedPerson.data.sessions) *
+                      100
+                  )
+                : 0}%
+
+            </div>
+
+          </div>
+
+
+          {/* ================= UPCOMING ================= */}
+
+          <div className="modal-stat-card upcoming-card">
+
+            <div className="stat-icon">
+              ◷
+            </div>
+
+            <div className="stat-content">
+
+              <span>
+                Upcoming
+              </span>
+
+              <strong>
+                {selectedPerson.data.upcoming}
+              </strong>
+
+              <small>
+                Sessions remaining
+              </small>
+
+            </div>
+
+            <div className="stat-percentage orange">
+
+              {selectedPerson.data.sessions
+                ? Math.round(
+                    (selectedPerson.data.upcoming /
+                      selectedPerson.data.sessions) *
+                      100
+                  )
+                : 0}%
+
+            </div>
+
+          </div>
+
+
+          {/* ================= ASSESSMENTS ================= */}
+
+          {selectedPerson.type === "Trainee" && (
+
+            <div className="modal-stat-card assessment-card">
+
+              <div className="stat-icon">
+                ☑
+              </div>
+
+              <div className="stat-content">
+
+                <span>
+                  Assessments
+                </span>
+
+                <strong>
+                  {selectedPerson.data.attempted}/
+                  {selectedPerson.data.assessments}
+                </strong>
+
+                <small>
+                  Assessments completed
+                </small>
+
+              </div>
+
+              <div className="stat-percentage purple">
+
+                {selectedPerson.data.assessments
+                  ? Math.round(
+                      (selectedPerson.data.attempted /
+                        selectedPerson.data.assessments) *
+                        100
+                    )
+                  : 0}%
+
+              </div>
+
+            </div>
+
+          )}
+
+
+          {/* ================= TRAINER ================= */}
+
+          {selectedPerson.type === "Trainer" && (
+
+            <div className="modal-stat-card assessment-card">
+
+              <div className="stat-icon">
+                👥
+              </div>
+
+              <div className="stat-content">
+
+                <span>
+                  Assigned Trainees
+                </span>
+
+                <strong>
+                  {selectedPerson.data.trainees}
+                </strong>
+
+                <small>
+                  Active trainees
+                </small>
+
+              </div>
+
+            </div>
+
+          )}
+
+        </div>
+
+      </div>
+
+
+      {/* =================================================
+          FOOTER - FIXED
+      ================================================= */}
+
+      <div className="progress-modal-footer">
+
+        <button
+          className="modal-close-main-btn"
+          onClick={() => setSelectedPerson(null)}
+        >
+          ✓ &nbsp; Close
+        </button>
+
+      </div>
 
     </div>
-  );
-}
-
+  </div>
+)}
+</div> 
+);
+ } 
 export default Progress;
-
